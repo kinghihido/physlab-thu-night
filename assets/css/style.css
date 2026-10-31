@@ -1,15 +1,15 @@
 :root{
-  --pku-red:#C0202F;
-  --pku-red-dark:#8E1722;
-  --pku-red-soft:#FBE9EB;
-  --ink:#1f2328;
-  --muted:#5b6470;
-  --line:#e6e8eb;
-  --bg:#f5f6f8;
-  --card:#ffffff;
-  --nanlou:#2563eb;
-  --gonglou:#0d9488;
-  --xilou:#7c3aed;
+  --pku-red:#8E1B2A;
+  --pku-red-dark:#5C0F19;
+  --pku-red-soft:#F1E3E5;
+  --ink:#1A1D21;
+  --muted:#585F69;
+  --line:#E6E1DA;
+  --bg:#F6F4F1;
+  --card:#FFFFFF;
+  --nanlou:#1E4E8C;
+  --gonglou:#0F6B62;
+  --xilou:#5B2E91;
   --shadow:0 1px 3px rgba(16,24,40,.06),0 8px 24px rgba(16,24,40,.06);
   --radius:14px;
 }
@@ -27,17 +27,17 @@ h1,h2,h3{font-family:Georgia,"Times New Roman","Songti SC","SimSun",serif;font-w
 
 /* ---------- Hero ---------- */
 .hero{
-  background:linear-gradient(135deg,var(--pku-red) 0%,var(--pku-red-dark) 100%);
-  color:#fff;padding:56px 20px 64px;position:relative;overflow:hidden;
+  background:linear-gradient(157deg,#6E1320 0%,#490C13 100%);
+  color:#fff;padding:132px 24px 96px;position:relative;overflow:hidden;
 }
-.hero::after{content:"";position:absolute;right:-80px;top:-80px;width:320px;height:320px;
-  background:radial-gradient(circle,rgba(255,255,255,.12),transparent 70%);border-radius:50%;}
+.hero::after{content:"";position:absolute;right:-90px;top:-90px;width:340px;height:340px;
+  background:radial-gradient(circle,rgba(255,255,255,.08),transparent 70%);border-radius:50%;}
 .hero-inner{max-width:1040px;margin:0 auto;position:relative;z-index:1;}
-.hero-tag{display:inline-block;font-size:13px;letter-spacing:.08em;opacity:.9;
-  border:1px solid rgba(255,255,255,.4);padding:4px 12px;border-radius:999px;margin-bottom:14px;}
-.hero-title{font-size:clamp(28px,5vw,44px);margin:0 0 10px;}
-.hero-sub{font-size:clamp(15px,2.4vw,19px);margin:0 0 20px;opacity:.95;}
-.hero-chips{display:flex;flex-wrap:wrap;gap:10px;margin-bottom:22px;}
+.hero-tag{display:inline-block;font-size:13px;letter-spacing:.1em;opacity:.82;
+  border:1px solid rgba(255,255,255,.32);padding:5px 13px;border-radius:999px;margin-bottom:18px;}
+.hero-title{font-size:clamp(30px,5.4vw,48px);margin:0 0 12px;letter-spacing:.01em;font-weight:700;}
+.hero-sub{font-size:clamp(15px,2.4vw,19px);margin:0 0 26px;opacity:.9;}
+.hero-chips{display:flex;flex-wrap:wrap;gap:10px;margin-bottom:30px;}
 .chip{background:rgba(255,255,255,.14);border:1px solid rgba(255,255,255,.22);
   padding:7px 14px;border-radius:999px;font-size:13.5px;}
 .next-box{display:inline-flex;align-items:center;gap:14px;background:#fff;color:var(--ink);
@@ -148,7 +148,7 @@ h1,h2,h3{font-family:Georgia,"Times New Roman","Songti SC","SimSun",serif;font-w
 .foot-sub{color:#8b9099;font-size:12.5px;margin-top:6px;}
 
 @media (max-width:560px){
-  .hero{padding:40px 16px 48px;}
+  .hero{padding:86px 16px 64px;}
   .exp-name{min-width:72px;}
   .loc-table th,.loc-table td{padding:9px 10px;font-size:13px;}
   .next-box{padding:12px 14px;}
@@ -157,7 +157,7 @@ h1,h2,h3{font-family:Georgia,"Times New Roman","Songti SC","SimSun",serif;font-w
 /* ---------- 第三组专属样式 ---------- */
 .chip-mine{background:#fff;color:var(--pku-red);border:1px solid #fff;font-weight:700;}
 .after-tag{display:inline-block;font-size:11px;font-weight:700;color:var(--xilou);
-  background:#f3eefe;border:1px solid #e3d8fb;border-radius:5px;padding:1px 6px;margin-left:6px;vertical-align:middle;}
+  background:#efe9f8;border:1px solid #dcccf0;border-radius:5px;padding:1px 6px;margin-left:6px;vertical-align:middle;}
 .t-card.is-mine{border:2px solid var(--pku-red);box-shadow:0 0 0 3px var(--pku-red-soft);}
 .t-card.is-mine .t-name::after{content:" · 第三组相关";font-size:12px;color:var(--pku-red);font-weight:700;}
 
