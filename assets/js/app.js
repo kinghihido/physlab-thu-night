@@ -78,3 +78,143 @@
     render();
   }
 })();
+
+// ---------------------------------------------------------------- 预习 & 报告要求
+(function () {
+  "use strict";
+
+  // 第三组每周课表 → 对应预习条目 [显示名, 目标锚点]
+  var WEEK_PREP = {
+    2:  [["电学基础", "exp-2"], ["伏安特性", "exp-3"]],
+    3:  [["薄透镜焦距", "exp-5"], ["显微镜", "exp-6"]],
+    5:  [["冰的熔化热", "exp-1"], ["模拟示波器", "exp-4"]],
+    6:  [["预习问题", "exp-7"], ["作业题目", "note-error-hw"]],
+    7:  [["虚拟仪器", "exp-29"]],
+    8:  [["光的偏振", "exp-21"]],
+    9:  [["介质中的声速", "exp-12"]],
+    10: [["直流电桥", "exp-14"], ["非平衡电桥", "exp-15"]],
+    11: [["迈克耳孙干涉仪", "exp-22"]],
+    12: [["真空镀膜", "exp-26"]],
+    13: [["RLC 谐振", "exp-17"]],
+    14: [["分光计", "exp-19"]],
+    15: [["杨氏模量", "exp-8"]]
+  };
+
+  function init() {
+    // 1) 每张周卡底部注入「预习问题 →」直达链接
+    var weekCards = document.querySelectorAll(".week-card[data-week]");
+    for (var i = 0; i < weekCards.length; i++) {
+      var card = weekCards[i];
+      var wk = parseInt(card.getAttribute("data-week"), 10);
+      var list = WEEK_PREP[wk];
+      if (!list) continue;
+      var box = document.createElement("div");
+      box.className = "prep-links";
+      var links = "预习问题：";
+      for (var j = 0; j < list.length; j++) {
+        links += '<a href="#' + list[j][1] + '">' + list[j][0] + " →</a>";
+      }
+      box.innerHTML = links;
+      card.appendChild(box);
+    }
+
+    var input = document.getElementById("prepSearch");
+    var count = document.getElementById("prepCount");
+    var toggle = document.getElementById("prepToggle");
+    var listWrap = document.getElementById("prepList");
+    var cards = [].slice.call(document.querySelectorAll(".prep-card"));
+    var buttons = [].slice.call(document.querySelectorAll(".pf-btn[data-filter]"));
+    if (!cards.length) return;
+
+    var empty = document.createElement("div");
+    empty.className = "prep-empty";
+    empty.textContent = "没有匹配的实验，试试别的关键词或切换筛选条件。";
+    if (listWrap && listWrap.parentNode) {
+      listWrap.parentNode.insertBefore(empty, listWrap.nextSibling);
+    }
+
+    var mode = "all";
+    var allOpen = false;
+
+    function syncGroups() {
+      var groups = [].slice.call(document.querySelectorAll(".prep-list"));
+      groups.forEach(function (ul) {
+        var any = [].slice.call(ul.querySelectorAll(".prep-card"))
+          .some(function (c) { return c.style.display !== "none"; });
+        ul.style.display = any ? "" : "none";
+        var gl = ul.previousElementSibling;
+        while (gl && !gl.classList.contains("prep-group-label")) {
+          gl = gl.previousElementSibling;
+        }
+        if (gl && gl.classList.contains("prep-group-label")) {
+          gl.style.display = any ? "" : "none";
+        }
+      });
+    }
+
+    function apply() {
+      var q = ((input && input.value) || "").trim().toLowerCase();
+      var visible = 0;
+      cards.forEach(function (c) {
+        var hay = (c.getAttribute("data-search") || "").toLowerCase();
+        var ok = !q || hay.indexOf(q) > -1;
+        if (mode === "mine") ok = ok && c.getAttribute("data-mine") === "1";
+        if (mode === "pre") ok = ok && c.getAttribute("data-pre") === "1";
+        c.style.display = ok ? "" : "none";
+        if (ok) visible++;
+        if (q && ok) c.open = true;   // 搜索命中自动展开，直接看到内容
+      });
+      if (count) count.textContent = visible + " / " + cards.length + " 项";
+      empty.classList.toggle("is-on", visible === 0);
+      syncGroups();
+    }
+
+    function openHash() {
+      var id = "";
+      try { id = decodeURIComponent((location.hash || "").slice(1)); } catch (e) { return; }
+      if (!id) return;
+      var el = document.getElementById(id);
+      if (!el || el.tagName !== "DETAILS") return;   // #prep 等 section 锚点交给浏览器
+      // 目标若被筛选隐藏，先重置筛选
+      if (el.style.display === "none") {
+        mode = "all";
+        if (input) input.value = "";
+        buttons.forEach(function (b) {
+          b.classList.toggle("is-active", b.getAttribute("data-filter") === "all");
+        });
+        apply();
+      }
+      el.open = true;
+      setTimeout(function () {
+        try { el.scrollIntoView({ behavior: "smooth", block: "start" }); }
+        catch (e) { el.scrollIntoView(); }
+      }, 80);
+    }
+
+    if (input) input.addEventListener("input", apply);
+    buttons.forEach(function (b) {
+      b.addEventListener("click", function () {
+        mode = b.getAttribute("data-filter");
+        buttons.forEach(function (x) { x.classList.toggle("is-active", x === b); });
+        apply();
+      });
+    });
+    if (toggle) {
+      toggle.addEventListener("click", function () {
+        allOpen = !allOpen;
+        cards.forEach(function (c) { c.open = allOpen; });
+        toggle.textContent = allOpen ? "收起全部" : "展开全部";
+      });
+    }
+    window.addEventListener("hashchange", openHash);
+
+    apply();
+    if (location.hash) setTimeout(openHash, 150);
+  }
+
+  if (document.readyState === "loading") {
+    document.addEventListener("DOMContentLoaded", init);
+  } else {
+    init();
+  }
+})();
